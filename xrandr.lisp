@@ -1,4 +1,4 @@
-(in-package :cl-xrandr)
+(in-package :cl-xrandr-dmenu)
 
 (defparameter *xrandrcmd* "xrandr")
 (defparameter *launchercmd* "dmenu")
@@ -56,7 +56,7 @@
 
 (defun primary-output ()
   (funcall (lambda (x) (when x (intern (car(str:words x))
-                                  :cl-xrandr)))
+                                  :cl-xrandr-dmenu)))
            (car (remove nil (mapcar
                              #'(lambda (x)
                                  (when (search "primary" x) x))
@@ -68,12 +68,12 @@
 (defun list-monitors ()
   (mapcar #'(lambda (string)
               (intern (car (last (str:words string)))
-                      :cl-xrandr))
+                      :cl-xrandr-dmenu))
           (cdr (call-xrandr  "--listmonitors"))))
 
 (defun list-outputs ()
   (mapcar #'(lambda (string) (intern (car (str:words string))
-                                :cl-xrandr))
+                                :cl-xrandr-dmenu))
        (connected-outputs)))
 
 (defun output-on-p (output)
@@ -104,7 +104,7 @@ input is in the list of options.
 This function assumes that the list of options is a list of symbols and calls
 `intern' on the input."
   (verify-input (intern (request-input prompt options)
-                        :cl-xrandr)
+                        :cl-xrandr-dmenu)
                 options))
 
 ;; ###############

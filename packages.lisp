@@ -1,3 +1,3 @@
-(defpackage :cl-xrandr
+(defpackage :cl-xrandr-dmenu
   (:use :cl)
   (:export :main))
