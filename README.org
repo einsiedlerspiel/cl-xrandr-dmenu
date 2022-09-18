@@ -25,6 +25,20 @@ aren't edge cases where the way this is implemented produces unwanted results.
 
 Compile using the makefile provided.
 
+#+begin_src bash
+  git clone  https://github.com/einsiedlerspiel/cl-xrandr-dmenu.git cl-xrandr-dmenu
+  cd cl-xrandr-dmenu
+  make
+#+end_src
+
+Optionally you can also execute ~make install~ which will copy the binary to ~~/.local/bin~.
+
+** i3WM
+
 If executed with the argument ~-i~ xrandr-dmenu will try to restart i3wm with a
 call to ~i3-msg~ before exiting. Probably causes issues when used without i3 being
 installed or running.
+
+** StumpWM
+
+TODO
