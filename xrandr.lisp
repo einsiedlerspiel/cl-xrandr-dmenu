@@ -124,9 +124,9 @@ does nothing. It is only needed to unify the `funcall' for all xrandr actions"
 
 (defun output-position (output outputs)
   (let* ((options-alist '((left . "--left-of")
-                         (right . "--right-of")
-                         (above . "--above")
-                         (below . "--below")))
+                          (right . "--right-of")
+                          (above . "--above")
+                          (below . "--below")))
          (options (mapcar #'car options-alist))
          (outputs (remove output outputs)))
     (call-xrandr  "--output"
@@ -138,9 +138,19 @@ does nothing. It is only needed to unify the `funcall' for all xrandr actions"
                       (car outputs)
                       (request-safe-input "of?" outputs)))))
 
+(defun rotate-output (output outputs)
+  (declare (ignore outputs))
+  (let* ((options '(normal
+                    right
+                    left)))
+    (call-xrandr "--output" output
+                 "--auto"
+                 "--rotate" (string-downcase (request-safe-input "rotation?" options)))))
+
 (defparameter *actions* '(display-off
                           output-position
-                          make-primary)
+                          make-primary
+                          rotate-output)
   "list of functions that take two arguments `output' and `outputs' where the
 former is a symbol that is an element of the latter list")
 

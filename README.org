@@ -6,10 +6,9 @@ A dmenu interface for xrandr written in Common Lisp.
 
 The dmenu interface is heavily inspired by [[https://github.com/luksamuk/powerlisp][Powerlisp]].
 
-This script is intended to replace a bunch of my bash scripts for my monitor
-setup. Right now it is able to turn xrandr outputs on and off manipulate their
-relative position and change which one is primary. I'll probably some
-functionality for rotating outputs at some point.
+This script is intended to replace some bash scripts for my screen setup. Right
+now it is able to turn xrandr outputs on and off, manipulate their relative
+position, rotate them and change which one is primary.
 
 There's also a function that automatically fixes the screen set up in case a
 screen was disconnected before the output was disabled. No guarantee that there
