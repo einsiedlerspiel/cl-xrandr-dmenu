@@ -25,7 +25,7 @@
                                 (list
                                  (adopt:make-option 'restart-i3
                                                     :long "restart-i3"
-                                                    :short #\i3
+                                                    :short #\i
                                                     :help "if this option is spepcified i3 will be restarted after every xrandr action. Probably causes problems if i3 is not installed or running."
                                                     :reduce (constantly t)))))))
 
