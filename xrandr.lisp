@@ -6,9 +6,6 @@
                               "-b")
   "options for `*launchercmd'")
 
-(defvar *restart-i3* nil
-  "if `t' `restart-i3' will be called at the end of the program.")
-
 (defparameter *ui*
   (adopt:make-interface
    :name "xrandr interface"
@@ -28,10 +25,9 @@
                                 (list
                                  (adopt:make-option 'restart-i3
                                                     :long "restart-i3"
-                                                    :short #\i
+                                                    :short #\i3
                                                     :help "if this option is spepcified i3 will be restarted after every xrandr action. Probably causes problems if i3 is not installed or running."
-                                                    :reduce (constantly t)
-                                                    :finally (lambda (x) (setf *restart-i3* x))))))))
+                                                    :reduce (constantly t)))))))
 
 ;; #############
 ;; xrandr parser
@@ -167,9 +163,6 @@ for waht I'm regularly dealing with."
 ;; main functions
 ;; ####################
 
-(defun restart-i3 ()
-  (progn (uiop:run-program "i3-msg restart")))
-
 (defun main-menu ()
   (output-fix)
   (let* ((outputs (list-outputs))
@@ -206,9 +199,7 @@ for waht I'm regularly dealing with."
                 (remove 'make-primary *actions*))
                ;; Pass on all actions
                (t *actions*))))))
-    (funcall action output outputs)
-    (when *restart-i3*
-      (restart-i3))))
+    (funcall action output outputs)))
 
 (defun main ()
   (handler-case
@@ -217,6 +208,8 @@ for waht I'm regularly dealing with."
         (declare (ignore arguments))
         (when (gethash 'help options)
          (adopt:print-help-and-exit *ui*))
-        (main-menu))
+        (main-menu)
+        (when (gethash 'restart-i3 options)
+          (uiop:run-program "i3-msg restart")))
     (error (c)
       (adopt:print-error-and-exit c))))

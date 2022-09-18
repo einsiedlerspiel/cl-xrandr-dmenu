@@ -26,5 +26,6 @@ aren't edge cases where the way this is implemented produces unwanted results.
 
 Compile using the makefile provided.
 
-If executed with the argument ~-i~ xrandr-dmenu will try to restart i3wm before
-exiting. Probably causes issues when used without i3 being installed or running.
+If executed with the argument ~-i3~ xrandr-dmenu will try to restart i3wm with a
+call to ~i3-msg~ before exiting. Probably causes issues when used without i3 being
+installed or running.
