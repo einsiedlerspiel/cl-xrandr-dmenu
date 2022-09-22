@@ -103,8 +103,8 @@ not installed or running.")
                                 :cl-xrandr-dmenu))
        (connected-outputs)))
 
-(defun output-on-p (output)
-  (when (remove nil (member output (list-monitors)))
+(defun output-on-p (output monitors)
+  (when (remove nil (member output monitors))
     t))
 
 ;; ###############
@@ -206,6 +206,7 @@ for waht I'm regularly dealing with."
 
 (defun main-menu ()
   (let* ((outputs (list-outputs))
+         (monitors (list-monitors))
          (output (request-safe-input "Output?" outputs))
          (action
            (request-safe-input
@@ -214,9 +215,9 @@ for waht I'm regularly dealing with."
                         x
                         (return-from main-menu)))
               (cond
-               ;; Only one ouput active, so we don't allow disabling that
-               ((and (output-on-p output)
-                     (= 1 (length (list-monitors))))
+               ;; Only one output active, so we don't allow disabling that
+               ((and (output-on-p output monitors)
+                     (= 1 (length monitors)))
                 (remove 'display-off
                         ;; if the only connected ouput is also the primary ouput
                         ;; we remove the option to make it primary.
@@ -229,7 +230,7 @@ for waht I'm regularly dealing with."
                                  (remove 'output-position *actions*))))
                ;; Check if Output is off if yes remove the option to turn it
                ;; off.
-               ((not (output-on-p output))
+               ((not (output-on-p output monitors))
                 (remove 'make-primary
                         (remove 'display-off *actions*)))
                ;; Check if Output is primary, if yes remove option to make
