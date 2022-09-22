@@ -1,33 +1,53 @@
 (in-package :cl-xrandr-dmenu)
 
 (defparameter *xrandrcmd* "xrandr")
+
 (defparameter *launchercmd* "dmenu")
-(defvar *launcherparam* (list "-i"
-                              "-b")
+(defparameter *launcherparam* (list "-i"
+                                    "-b")
   "options for `*launchercmd'")
 
+;; #############
+;; UI definition
+;; #############
+
+(adopt:define-string *main-help*  "This script is intended to replace a bunch ~
+ of my bash scripts for my monitor setup. Right now it is able to turn xrandr ~
+ outputs on and off, rotate them,manipulate their relative position and change ~
+ which one is primary.")
+
+
+(adopt:define-string *i3-help* "if this option is spepcified i3 will be ~
+restarted after every xrandr action. Probably causes problems if i3 is ~
+not installed or running.")
+
+(defparameter *option-help* (adopt:make-option 'help
+                                               :long "help"
+                                               :short #\h
+                                               :help "Display help and exit"
+                                               :reduce (constantly t)))
+
+(defparameter *option-i3* (adopt:make-option 'restart-i3
+                                             :long "restart-i3"
+                                             :short #\i
+                                             :help *i3-help*
+                                             :reduce (constantly t)))
+
+(defparameter *group-wm*
+  (adopt:make-group 'window-manager
+                    :title "WM Options"
+                    :help "These options handle things specifc to the windowmanager in use."
+                    :options (list
+                              *option-i3*)))
 (defparameter *ui*
   (adopt:make-interface
    :name "xrandr interface"
    :summary "Manipulating xrandr Outputs with a dmenu interface"
    :usage "[OPTIONS]"
-   :help "This script is intended to replace a bunch of my bash scripts for my monitor setup. Right now it is able to turn xrandr outputs on and off manipulate their relative position and change which one is primary."
+   :help *main-help*
    :contents (list
-              (adopt:make-option 'help
-                                 :long "help"
-                                 :short #\h
-                                 :help "Display help and exit"
-                                 :reduce (constantly t))
-              (adopt:make-group 'window-manager
-                                :title "WM Options"
-                                :help "These options handle things specifc to the windowmanager in use."
-                                :options
-                                (list
-                                 (adopt:make-option 'restart-i3
-                                                    :long "restart-i3"
-                                                    :short #\i
-                                                    :help "if this option is spepcified i3 will be restarted after every xrandr action. Probably causes problems if i3 is not installed or running."
-                                                    :reduce (constantly t)))))))
+              *option-help*
+              *group-wm*)))
 
 ;; #############
 ;; xrandr parser
