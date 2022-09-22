@@ -16,6 +16,9 @@
  outputs on and off, rotate them,manipulate their relative position and change ~
  which one is primary.")
 
+(adopt:define-string *outputfix-help* "By default xrandr dmenu checks if ~
+`xrandr --list-monitors' lists more monitors than `xrandr' lists active outputs ~
+and disables any surplus monitors. This option turns that behavior off.")
 
 (adopt:define-string *i3-help* "if this option is spepcified i3 will be ~
 restarted after every xrandr action. Probably causes problems if i3 is ~
@@ -26,6 +29,12 @@ not installed or running.")
                                                :short #\h
                                                :help "Display help and exit"
                                                :reduce (constantly t)))
+
+(defparameter *option-output-fix (adopt:make-option 'output-fix
+                                                    :long "no-output-fix"
+                                                    :short #\f
+                                                    :help *outputfix-help*
+                                                    :reduce (constantly t)))
 
 (defparameter *option-i3* (adopt:make-option 'restart-i3
                                              :long "restart-i3"
@@ -39,6 +48,7 @@ not installed or running.")
                     :help "These options handle things specifc to the windowmanager in use."
                     :options (list
                               *option-i3*)))
+
 (defparameter *ui*
   (adopt:make-interface
    :name "xrandr interface"
@@ -47,6 +57,7 @@ not installed or running.")
    :help *main-help*
    :contents (list
               *option-help*
+              *option-output-fix
               *group-wm*)))
 
 ;; #############
@@ -194,7 +205,6 @@ for waht I'm regularly dealing with."
 ;; ####################
 
 (defun main-menu ()
-  (output-fix)
   (let* ((outputs (list-outputs))
          (output (request-safe-input "Output?" outputs))
          (action
@@ -238,6 +248,8 @@ for waht I'm regularly dealing with."
         (declare (ignore arguments))
         (when (gethash 'help options)
          (adopt:print-help-and-exit *ui*))
+        (unless (gethash 'output-fix options)
+          (output-fix))
         (main-menu)
         (when (gethash 'restart-i3 options)
           (uiop:run-program "i3-msg restart")))
