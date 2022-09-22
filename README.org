@@ -11,15 +11,14 @@ now it is able to turn xrandr outputs on and off, manipulate their relative
 position, rotate them and change which one is primary.
 
 There's also a function that automatically fixes the screen set up in case a
-screen was disconnected before the output was disabled. No guarantee that there
-aren't edge cases where the way this is implemented produces unwanted results.
+screen was disconnected before the output was disabled.
 
 * Dependencies
 
 - dmenu
 - sbcl
 - quicklisp
-- libnotify (calls ~notify-send~ through ~uiop:run-program~)
+- libnotify (notify-send)
 
 * Installation
 
@@ -35,7 +34,7 @@ Optionally you can also execute ~make install~ which will copy the binary to ~~/
 
 * Usage
 
-#+begin_src
+#+begin_src bash
 xrandr-dmenu [OPTIONS]
 
 Options:
@@ -48,7 +47,7 @@ Options:
 WM Options:
   These options handle things specifc to the windowmanager in use.
 
-  -i, --restart-i3      if this option is spepcified i3 will be restarted after
+  -i, --restart-i3      if this option is specified i3 will be restarted after
                         every xrandr action. Probably causes problems if i3 is
                         not installed or running.
 #+end_src
