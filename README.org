@@ -21,7 +21,7 @@ aren't edge cases where the way this is implemented produces unwanted results.
 - quicklisp
 - libnotify (calls ~notify-send~ through ~uiop:run-program~)
 
-* Usage
+* Installation
 
 Compile using the makefile provided.
 
@@ -33,12 +33,22 @@ Compile using the makefile provided.
 
 Optionally you can also execute ~make install~ which will copy the binary to ~~/.local/bin~.
 
-** i3WM
+* Usage
 
-If executed with the argument ~-i~ xrandr-dmenu will try to restart i3wm with a
-call to ~i3-msg~ before exiting. Probably causes issues when used without i3 being
-installed or running.
+#+begin_src
+xrandr-dmenu [OPTIONS]
 
-** StumpWM
+Options:
+  -h, --help            Display help and exit
+  -f, --no-output-fix   By default xrandr dmenu checks if `xrandr
+                        --list-monitors' lists more monitors than `xrandr' lists
+                        active outputs and disables any surplus monitors. This
+                        option turns that behavior off.
 
-TODO
+WM Options:
+  These options handle things specifc to the windowmanager in use.
+
+  -i, --restart-i3      if this option is spepcified i3 will be restarted after
+                        every xrandr action. Probably causes problems if i3 is
+                        not installed or running.
+#+end_src
