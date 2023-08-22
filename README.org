@@ -34,7 +34,7 @@ Optionally you can also execute ~make install~ which will copy the binary to ~~/
 
 * Usage
 
-#+begin_src bash
+#+begin_src
 xrandr-dmenu [OPTIONS]
 
 Options:
